@@ -1,0 +1,6 @@
+/**
+ * HelpPanel
+ */
+public class HelpPanel {
+
+}

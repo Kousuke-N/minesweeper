@@ -1,0 +1,6 @@
+/**
+ * ConfigPanel
+ */
+public class ConfigPanel {
+
+}

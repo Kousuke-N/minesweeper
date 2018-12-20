@@ -1,0 +1,6 @@
+/**
+ * StartPanel
+ */
+public class StartPanel {
+
+}

@@ -1,0 +1,6 @@
+/**
+ * GamePanel
+ */
+public class GamePanel {
+
+}
