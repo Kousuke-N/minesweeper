@@ -65,7 +65,6 @@ public class GamePanel extends JPanel {
 
     for (int y = 0; y < height + 2; y++) {
       for (int x = 0; x < width + 2; x++) {
-        System.out.println("hoge");
         field[y][x] = new JButton();
         field[y][x].setActionCommand(y + ":" + x);
         if (y == 0 || y == height + 1 || x == 0 || x == width + 1) {
