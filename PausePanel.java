@@ -1,0 +1,6 @@
+/**
+ * PausePanel
+ */
+public class PausePanel {
+
+}
