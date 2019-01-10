@@ -1,9 +1,17 @@
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +21,7 @@ import javax.swing.JPanel;
  */
 public class GamePanel extends JPanel {
   MainFrame mainFrame;
+  BufferedImage image;
   int width;
   int height;
   int bombnumber;
@@ -28,18 +37,35 @@ public class GamePanel extends JPanel {
 
   GamePanel(MainFrame mf, String difficulty) {
     mainFrame = mf;
-    if (difficulty == mainFrame.GAME_DIFFICULTY[0]) {
-      width = 8;
-      height = 8;
-      bombnumber = 10;
-      fieldData = new int[height + 2][width + 2];
-      openField = new int[height + 2][width + 2];
-      field = new JButton[height + 2][width + 2];
-      setLayout(new GridLayout(width, height));
+    try {
+      this.image = ImageIO.read(getClass().getResource("image/school.jpg"));
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      this.image = null;
     }
+    setOpaque(false);
+
+    if (difficulty == mainFrame.GAME_DIFFICULTY[0]) {
+      width = 9;
+      height = 9;
+      bombnumber = 10;
+    } else if (difficulty == mainFrame.GAME_DIFFICULTY[1]) {
+      width = 16;
+      height = 16;
+      bombnumber = 40;
+    } else if (difficulty == mainFrame.GAME_DIFFICULTY[2]) {
+      width = 30;
+      height = 16;
+      bombnumber = 99;
+    }
+    fieldData = new int[height + 2][width + 2];
+    openField = new int[height + 2][width + 2];
+    field = new JButton[height + 2][width + 2];
+    setLayout(new GridLayout(width, height));
 
     for (int y = 0; y < height + 2; y++) {
       for (int x = 0; x < width + 2; x++) {
+        System.out.println("hoge");
         field[y][x] = new JButton();
         field[y][x].setActionCommand(y + ":" + x);
         if (y == 0 || y == height + 1 || x == 0 || x == width + 1) {
@@ -60,11 +86,10 @@ public class GamePanel extends JPanel {
               notClickedFlag = !notClickedFlag;
               construct(y, x);
               calculate();
-              printField();
             }
 
             if (fieldData[y][x] == -1) {
-              // ゲームオーバー処理
+              // TODO:ゲームオーバー処理(アニメーションなど)
               mainFrame.panelChange(mainFrame.panelNames[0]);
             }
             openCell(x, y);
@@ -72,6 +97,25 @@ public class GamePanel extends JPanel {
         });
       }
     }
+  }
+
+  @Override // 上位クラスのメソッドを定義しなおしていることを示すJavaの注釈。なくても構いません
+  public void paint(Graphics g) {
+    Graphics2D g2D = (Graphics2D) g;
+
+    double imageWidth = image.getWidth();
+    double imageHeight = image.getHeight();
+    double panelWidth = this.getWidth();
+    double panelHeight = this.getHeight();
+
+    // 画像がコンポーネントの何倍の大きさか計算
+    double sx = (panelWidth / imageWidth);
+    double sy = (panelHeight / imageHeight);
+
+    // スケーリング
+    AffineTransform af = AffineTransform.getScaleInstance(sx, sy);
+    g2D.drawImage(image, af, this);
+    super.paint(g);
   }
 
   void construct(int y, int x) {
@@ -108,29 +152,25 @@ public class GamePanel extends JPanel {
   }
 
   void openCell(int x, int y) {
-    System.out.println(x + "," + y);
     if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
-      System.out.println("a");
       return;
     }
     if (openField[y][x] == -1) {
-      System.out.println("b");
       return;
     }
     if (fieldData[y][x] == -1) {
-      System.out.println("c");
       return;
     }
     if (fieldData[y][x] == 0) {
-      System.out.println("d");
       openField[y][x] = -1;
       field[y][x].setEnabled(false);
+      setForeground(Color.BLUE);
     }
     if (fieldData[y][x] > 0) {
-      System.out.println("e");
       openField[y][x] = -1;
       field[y][x].setText(String.valueOf(fieldData[y][x]));
       field[y][x].setEnabled(false);
+      setForeground(Color.BLUE);
       return;
     }
 
