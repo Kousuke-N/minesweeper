@@ -28,8 +28,8 @@ public class GamePanel extends JPanel {
   static final int NORMAL_HEIGHT = 16;
   static final int NORMAL_BOMB_NUMBER = 40;
 
-  static final int HARD_WIDTH = 24;
-  static final int HARD_HEIGHT = 20;
+  static final int HARD_WIDTH = 22;
+  static final int HARD_HEIGHT = 22;
   static final int HARD_BOMB_NUMBER = 99;
 
   static final int FIELD_DATA_EMPTY = 0;
