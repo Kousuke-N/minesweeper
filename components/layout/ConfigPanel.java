@@ -1,9 +1,13 @@
+package components.layout;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import components.MainFrame;
 
 /**
  * ConfigPanel
@@ -12,7 +16,7 @@ public class ConfigPanel extends JPanel {
   MainFrame mainFrame;
   JButton buttonToStart;
 
-  ConfigPanel(MainFrame mf) {
+  public ConfigPanel(MainFrame mf) {
     mainFrame = mf;
 
     buttonToStart = new JButton("スタート画面に遷移");

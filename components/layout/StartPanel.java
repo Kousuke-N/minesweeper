@@ -1,3 +1,5 @@
+package components.layout;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,19 +9,23 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import components.MainFrame;
+
 /**
  * StartPanel
  */
 public class StartPanel extends JPanel {
   private MainFrame mainFrame;
   private JLabel titleLabel;
+
   private JButton buttonToEasyGame;
   private JButton buttonToNormalGame;
   private JButton buttonToHardGame;
+
   private JButton buttonToConfig;
   private JButton buttonToHelp;
 
-  StartPanel(MainFrame mf) {
+  public StartPanel(MainFrame mf) {
     mainFrame = mf;
 
     titleLabel = new JLabel("スタート画面");
