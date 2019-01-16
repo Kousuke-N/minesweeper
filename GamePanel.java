@@ -20,6 +20,23 @@ import javax.swing.JPanel;
  * GamePanel
  */
 public class GamePanel extends JPanel {
+  static final int EASY_WIDTH = 9;
+  static final int EASY_HEIGHT = 9;
+  static final int EASY_BOMB_NUMBER = 10;
+
+  static final int NORMAL_WIDTH = 16;
+  static final int NORMAL_HEIGHT = 16;
+  static final int NORMAL_BOMB_NUMBER = 40;
+
+  static final int HARD_WIDTH = 24;
+  static final int HARD_HEIGHT = 20;
+  static final int HARD_BOMB_NUMBER = 99;
+
+  static final int FIELD_DATA_EMPTY = 0;
+  static final int FIELD_DATA_BOMB = -1;
+  static final int OPEN_FIELD_VISIBLE = 0;
+  static final int OPEN_FIELD_HIDDEN = -1;
+
   MainFrame mainFrame;
   BufferedImage image;
   int width;
@@ -46,23 +63,23 @@ public class GamePanel extends JPanel {
     setOpaque(false);
 
     if (difficulty == mainFrame.GAME_DIFFICULTY[0]) {
-      width = 9;
-      height = 9;
-      bombnumber = 10;
+      width = EASY_WIDTH;
+      height = EASY_HEIGHT;
+      bombnumber = EASY_BOMB_NUMBER;
     } else if (difficulty == mainFrame.GAME_DIFFICULTY[1]) {
-      width = 16;
-      height = 16;
-      bombnumber = 40;
+      width = NORMAL_WIDTH;
+      height = NORMAL_HEIGHT;
+      bombnumber = NORMAL_BOMB_NUMBER;
     } else if (difficulty == mainFrame.GAME_DIFFICULTY[2]) {
-      width = 30;
-      height = 16;
-      bombnumber = 99;
+      width = HARD_WIDTH;
+      height = HARD_HEIGHT;
+      bombnumber = HARD_BOMB_NUMBER;
     }
     fieldData = new int[height + 2][width + 2];
     openField = new int[height + 2][width + 2];
     for (int y = 0; y < height + 2; y++) {
       for (int x = 0; x < width + 2; x++) {
-        openField[y][x] = -1;
+        openField[y][x] = OPEN_FIELD_HIDDEN;
       }
     }
     field = new JButton[height + 2][width + 2];
@@ -130,10 +147,10 @@ public class GamePanel extends JPanel {
       if (constructedX >= x - 1 && constructedX <= x + 1 && constructedY >= y - 1 && constructedY <= y + 1) {
         continue;
       }
-      if (fieldData[constructedY][constructedX] == -1) {
+      if (fieldData[constructedY][constructedX] == FIELD_DATA_BOMB) {
         continue;
       }
-      fieldData[constructedY][constructedX] = -1;
+      fieldData[constructedY][constructedX] = FIELD_DATA_BOMB;
       constructedBombNumber++;
     }
   }
@@ -144,7 +161,7 @@ public class GamePanel extends JPanel {
         if (fieldData[y][x] == -1) {
           for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-              if (fieldData[y + i][x + j] == -1) {
+              if (fieldData[y + i][x + j] == FIELD_DATA_BOMB) {
                 continue;
               }
               fieldData[y + i][x + j]++;
@@ -159,19 +176,19 @@ public class GamePanel extends JPanel {
     if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
       return;
     }
-    if (openField[y][x] == 0) {
+    if (openField[y][x] == OPEN_FIELD_VISIBLE) {
       return;
     }
-    if (fieldData[y][x] == -1) {
+    if (fieldData[y][x] == FIELD_DATA_BOMB) {
       return;
     }
-    if (fieldData[y][x] == 0) {
-      openField[y][x] = 0;
+    if (fieldData[y][x] == FIELD_DATA_EMPTY) {
+      openField[y][x] = OPEN_FIELD_VISIBLE;
       field[y][x].setEnabled(false);
       setForeground(Color.BLUE);
     }
-    if (fieldData[y][x] > 0) {
-      openField[y][x] = 0;
+    if (fieldData[y][x] > FIELD_DATA_EMPTY) {
+      openField[y][x] = OPEN_FIELD_VISIBLE;
       field[y][x].setText(String.valueOf(fieldData[y][x]));
       field[y][x].setEnabled(false);
       setForeground(Color.BLUE);
@@ -195,5 +212,9 @@ public class GamePanel extends JPanel {
       }
       System.out.println();
     }
+  }
+
+  int[][] getOpenField() {
+    return openField;
   }
 }
