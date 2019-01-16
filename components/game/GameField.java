@@ -16,6 +16,7 @@ import components.layout.GamePanel;
 public class GameField extends JPanel {
 
   private GameCell[][] field;
+  private int[][] cacheField;
   private int width;
   private int height;
   private int bombnumber;
@@ -61,6 +62,13 @@ public class GameField extends JPanel {
           });
         }
       }
+
+    }
+    cacheField = new int[HEIGHT + 2][WIDTH + 2];
+    for (int y = 0; y < HEIGHT + 2; y++) {
+      for (int x = 0; x < WIDTH + 2; x++) {
+        cacheField[y][x] = GameCell.FIELD_DATA_HIDDEN;
+      }
     }
     setPreferredSize(new Dimension(700, 600));
     setLayout(new GridLayout(width, height));
@@ -93,14 +101,13 @@ public class GameField extends JPanel {
     if (field[y][x].isHereBomb()) {
       return;
     }
-    // そのセルが数字ならばそのセルを開けてストップ
-    if (field[y][x].getActualData() > GameCell.FIELD_DATA_EMPTY) {
+    if (field[y][x].getActualData() >= GameCell.FIELD_DATA_EMPTY) {
       field[y][x].open();
-      return;
-    }
-    // 下に何もなければそのセルを開けてその周りも調べる
-    if (field[y][x].getActualData() == GameCell.FIELD_DATA_EMPTY) {
-      field[y][x].open();
+      cacheField[y][x] = field[y][x].getFieldData();
+      // そのセルが数字ならばそのセルを開けてストップ
+      if (field[y][x].getActualData() > GameCell.FIELD_DATA_EMPTY) {
+        return;
+      }
     }
 
     for (int indexY = -1; indexY < 2; indexY++) {
@@ -144,5 +151,9 @@ public class GameField extends JPanel {
         }
       }
     }
+  }
+
+  public int[][] getFieldData() {
+    return cacheField;
   }
 }
