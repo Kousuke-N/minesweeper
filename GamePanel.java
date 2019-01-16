@@ -28,10 +28,10 @@ public class GamePanel extends JPanel {
 
   // 以下３つのfieldは周囲に余分に一桝関係ないマスを置いているので注意。壁用。
   // 0: 何もなし、-1: 爆弾、1以上: 周囲の爆弾の数
-  int[][] fieldData;
-  // -1: 空いている、0：空いていない、1以上：周囲の爆弾の数
-  int[][] openField;
-  JButton[][] field;
+  private int[][] fieldData;
+  // -1：空いていない、0: 空いている、1以上：周囲の爆弾の数
+  private int[][] openField;
+  private JButton[][] field;
 
   boolean notClickedFlag = true;
 
@@ -60,6 +60,11 @@ public class GamePanel extends JPanel {
     }
     fieldData = new int[height + 2][width + 2];
     openField = new int[height + 2][width + 2];
+    for (int y = 0; y < height + 2; y++) {
+      for (int x = 0; x < width + 2; x++) {
+        openField[y][x] = -1;
+      }
+    }
     field = new JButton[height + 2][width + 2];
     setLayout(new GridLayout(width, height));
 
@@ -154,19 +159,19 @@ public class GamePanel extends JPanel {
     if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
       return;
     }
-    if (openField[y][x] == -1) {
+    if (openField[y][x] == 0) {
       return;
     }
     if (fieldData[y][x] == -1) {
       return;
     }
     if (fieldData[y][x] == 0) {
-      openField[y][x] = -1;
+      openField[y][x] = 0;
       field[y][x].setEnabled(false);
       setForeground(Color.BLUE);
     }
     if (fieldData[y][x] > 0) {
-      openField[y][x] = -1;
+      openField[y][x] = 0;
       field[y][x].setText(String.valueOf(fieldData[y][x]));
       field[y][x].setEnabled(false);
       setForeground(Color.BLUE);
