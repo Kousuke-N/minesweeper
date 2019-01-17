@@ -1,9 +1,13 @@
+package components.layout;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import components.MainFrame;
 
 /**
  * HelpPanel
@@ -12,7 +16,7 @@ public class HelpPanel extends JPanel {
   MainFrame mainFrame;
   JButton buttonToStart;
 
-  HelpPanel(MainFrame mf) {
+  public HelpPanel(MainFrame mf) {
     mainFrame = mf;
     setBackground(Color.BLACK);
 
