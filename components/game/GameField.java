@@ -64,9 +64,9 @@ public class GameField extends JPanel {
       }
 
     }
-    cacheField = new int[HEIGHT + 2][WIDTH + 2];
-    for (int y = 0; y < HEIGHT + 2; y++) {
-      for (int x = 0; x < WIDTH + 2; x++) {
+    cacheField = new int[height + 2][width + 2];
+    for (int y = 0; y < height + 2; y++) {
+      for (int x = 0; x < width + 2; x++) {
         cacheField[y][x] = GameCell.FIELD_DATA_HIDDEN;
       }
     }
@@ -88,7 +88,6 @@ public class GameField extends JPanel {
   }
 
   private void openCell(int x, int y) {
-    System.out.println("openCell:" + x + "," + "y");
     // 調べようとしてるのは壁だからカット
     if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
       return;
@@ -103,7 +102,8 @@ public class GameField extends JPanel {
     }
     if (field[y][x].getActualData() >= GameCell.FIELD_DATA_EMPTY) {
       field[y][x].open();
-      cacheField[y][x] = field[y][x].getFieldData();
+      // System.out.println(cacheField[y][x]);
+      // cacheField[y][x] = field[y][x].getFieldData();
       // そのセルが数字ならばそのセルを開けてストップ
       if (field[y][x].getActualData() > GameCell.FIELD_DATA_EMPTY) {
         return;
