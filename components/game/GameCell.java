@@ -1,9 +1,13 @@
 package components.game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 /**
  * GameCell
@@ -14,15 +18,62 @@ public class GameCell extends JButton {
   static final int FIELD_DATA_HIDDEN = -2;
   static final int FIELD_DATA_MAX_NUMBER = 8;
 
+  private static ImageIcon flagIcon;
+  ImageIcon smallIcon;
+
   // private int x;
   // private int y;
 
   private boolean isOpen = false;
+  private boolean isFlag = false;
   private boolean isGameOver = false;
   private int fieldData = FIELD_DATA_EMPTY;
 
+  public GameCell() {
+    super();
+
+    // 旗用画像の処理
+    flagIcon = new ImageIcon("./image/anctlogo.png");
+    MediaTracker tracker = new MediaTracker(this);
+    Image smallImg = flagIcon.getImage().getScaledInstance((int) (flagIcon.getIconWidth() * 0.17), -1,
+        Image.SCALE_SMOOTH);
+    tracker.addImage(smallImg, 1);
+    smallIcon = new ImageIcon(smallImg);
+
+    try {
+      tracker.waitForAll();
+    } catch (InterruptedException e) {
+      System.out.println("なんかエラーでた。");
+    }
+
+    addMouseListener(new MouseAdapter() {
+      public void mousePressed(MouseEvent e) {
+        if (SwingUtilities.isRightMouseButton(e)) {
+          System.out.println("右クリックされたよ！！");
+          switchFlag();
+          repaint();
+        }
+      }
+    });
+  }
+
   protected void construct() {
     fieldData = FIELD_DATA_BOMB;
+  }
+
+  protected void switchFlag() {
+    isFlag = !isFlag;
+    if (!isOpen) {
+      if (isFlag) {
+        setIcon(smallIcon);
+      } else {
+        setIcon(null);
+      }
+    }
+  }
+
+  protected boolean getIsFlag() {
+    return isFlag;
   }
 
   protected void setFieldData(int data) {
