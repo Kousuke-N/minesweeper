@@ -14,8 +14,8 @@ public class GameCell extends JButton {
   static final int FIELD_DATA_HIDDEN = -2;
   static final int FIELD_DATA_MAX_NUMBER = 8;
 
-  private int x;
-  private int y;
+  // private int x;
+  // private int y;
 
   private boolean isOpen = false;
   private boolean isGameOver = false;
@@ -90,11 +90,11 @@ public class GameCell extends JButton {
     return fieldData;
   }
 
-  protected int getCellX() {
-    return x;
-  }
+  // protected int getCellX() {
+  // return x;
+  // }
 
-  protected int getCellY() {
-    return y;
-  }
+  // protected int getCellY() {
+  // return y;
+  // }
 }
