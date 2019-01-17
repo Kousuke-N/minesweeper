@@ -44,16 +44,16 @@ public class MainFrame extends JFrame {
     container.removeAll();
     if (toPanelName == panelNames[0]) {
       startPanel = new StartPanel(this);
-      add(startPanel);
+      container.add(startPanel);
     } else if (toPanelName == panelNames[1]) {
       gamePanel = new GamePanel(this, difficulty);
-      add(gamePanel);
+      container.add(gamePanel);
     } else if (toPanelName == panelNames[2]) {
       configPanel = new ConfigPanel(this);
-      add(configPanel);
+      container.add(configPanel);
     } else if (toPanelName == panelNames[3]) {
       helpPanel = new HelpPanel(this);
-      add(helpPanel);
+      container.add(helpPanel);
     }
     validate();
     repaint();
