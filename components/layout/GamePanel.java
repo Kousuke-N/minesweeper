@@ -62,7 +62,7 @@ public class GamePanel extends JPanel {
 
   boolean notClickedFlag = true;
 
-  public GamePanel(MainFrame mf, String difficulty) {
+  public GamePanel(MainFrame mf, String difficulty, boolean withPlayer) {
     mainFrame = mf;
     try {
       this.image = ImageIO.read(getClass().getResource("../../image/school.jpg"));
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel {
     }
 
     //TODO:プレイヤかソルバかを選択できるようにする。
-    gameField = new GameField(this, 800, 600, width, height, bombnumber, false);
+    gameField = new GameField(this, 800, 600, width, height, bombnumber, withPlayer);
     add(gameField);
   }
 
