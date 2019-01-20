@@ -37,16 +37,16 @@ public class MainFrame extends JFrame {
   }
 
   public void panelChange(String toPanelName) {
-    panelChange(toPanelName, GAME_DIFFICULTY[0]);
+    panelChange(toPanelName, GAME_DIFFICULTY[0], true);
   }
 
-  public void panelChange(String toPanelName, String difficulty) {
+  public void panelChange(String toPanelName, String difficulty, boolean withPlayer) {
     container.removeAll();
     if (toPanelName == panelNames[0]) {
       startPanel = new StartPanel(this);
       add(startPanel);
     } else if (toPanelName == panelNames[1]) {
-      gamePanel = new GamePanel(this, difficulty);
+      gamePanel = new GamePanel(this, difficulty, withPlayer);
       add(gamePanel);
     } else if (toPanelName == panelNames[2]) {
       configPanel = new ConfigPanel(this);

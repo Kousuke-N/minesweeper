@@ -61,6 +61,38 @@ public class GameField extends JPanel {
             }
           });
         }
+        else{
+          field[y][x].addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              //とりあえず適当なセルを選択。ソルバが完成すると以下のようなコードとなるだろう。
+              // Solver solver = new Solver(statusOfField);
+              // result = solver.execute();
+              // int y = result.y, x = result.x;
+
+              int y = isTouched ? (int) (Math.random() * height) + 1 : height / 2;
+              int x = isTouched ? (int) (Math.random() * width) + 1 : width / 2;
+      
+              //System.out.println(x + " " + y);
+              
+              // 以下重複・リファクタリングを検討
+              if (!isTouched) {
+                isTouched = true;
+                construct(x, y);
+                calculate();
+              }
+      
+              if (!open(x, y)) {
+                gamePanel.gameover();
+              }
+
+              // try{
+              //   Thread.sleep(1000);
+              // }catch(InterruptedException exception){}
+            }
+          });
+        }
       }
 
     }

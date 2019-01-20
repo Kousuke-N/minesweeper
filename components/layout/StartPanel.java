@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,6 +26,8 @@ public class StartPanel extends JPanel {
   private JButton buttonToConfig;
   private JButton buttonToHelp;
 
+  private JCheckBox checkBoxWithPlayer;
+
   public StartPanel(MainFrame mf) {
     mainFrame = mf;
 
@@ -42,6 +45,9 @@ public class StartPanel extends JPanel {
     add(buttonToConfig);
     buttonToHelp = new JButton("ヘルプ画面に遷移");
     add(buttonToHelp);
+
+    checkBoxWithPlayer = new JCheckBox("プレイヤーが解く", true);
+    add(checkBoxWithPlayer);
 
     buttonToEasyGame.addActionListener(new ActionListener() {
       @Override
@@ -76,7 +82,7 @@ public class StartPanel extends JPanel {
   }
 
   public void panelChangeToGame(String difficulty) {
-    mainFrame.panelChange(mainFrame.panelNames[1], difficulty);
+    mainFrame.panelChange(mainFrame.panelNames[1], difficulty, checkBoxWithPlayer.isSelected());
   }
 
   public void panelChangeToConfig() {
