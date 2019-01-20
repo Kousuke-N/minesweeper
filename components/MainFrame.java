@@ -3,7 +3,6 @@ package components;
 import java.awt.Container;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import components.layout.*;
 
