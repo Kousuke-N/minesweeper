@@ -49,6 +49,11 @@ public class GameField extends JPanel {
               int x = Integer.parseInt(splitedCommand[1]);
               int y = Integer.parseInt(splitedCommand[0]);
 
+              // setEnableだと見た目が変わるのでここで変更
+              if (field[y][x].getIsFlag()) {
+                return;
+              }
+
               if (!isTouched) {
                 isTouched = true;
                 construct(x, y);
@@ -120,25 +125,27 @@ public class GameField extends JPanel {
   }
 
   private void openCell(int x, int y) {
-    // 調べようとしてるのは壁だからカット
-    if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
-      return;
-    }
-    // すでに判明してるのでカット
-    if (field[y][x].getIsOpen()) {
-      return;
-    }
-    // 下にあるのは爆弾だからカット
-    if (field[y][x].isHereBomb()) {
-      return;
-    }
-    if (field[y][x].getActualData() >= GameCell.FIELD_DATA_EMPTY) {
-      field[y][x].open();
-      // System.out.println(cacheField[y][x]);
-      // cacheField[y][x] = field[y][x].getFieldData();
-      // そのセルが数字ならばそのセルを開けてストップ
-      if (field[y][x].getActualData() > GameCell.FIELD_DATA_EMPTY) {
+    if (!field[y][x].getIsFlag()) {
+      // 調べようとしてるのは壁だからカット
+      if (x < 1 || y < 1 || x >= width + 1 || y >= height + 1) {
         return;
+      }
+      // すでに判明してるのでカット
+      if (field[y][x].getIsOpen()) {
+        return;
+      }
+      // 下にあるのは爆弾だからカット
+      if (field[y][x].isHereBomb()) {
+        return;
+      }
+      if (field[y][x].getActualData() >= GameCell.FIELD_DATA_EMPTY) {
+        field[y][x].open();
+        // System.out.println(cacheField[y][x]);
+        // cacheField[y][x] = field[y][x].getFieldData();
+        // そのセルが数字ならばそのセルを開けてストップ
+        if (field[y][x].getActualData() > GameCell.FIELD_DATA_EMPTY) {
+          return;
+        }
       }
     }
 
