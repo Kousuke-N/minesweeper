@@ -47,7 +47,7 @@ public class MainFrame extends JFrame {
       container.add(startPanel);
     } else if (toPanelName == panelNames[1]) {
       gamePanel = new GamePanel(this, difficulty, withPlayer);
-      add(gamePanel);
+      container.add(gamePanel);
     } else if (toPanelName == panelNames[2]) {
       configPanel = new ConfigPanel(this);
       container.add(configPanel);
