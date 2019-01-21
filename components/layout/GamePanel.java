@@ -86,7 +86,6 @@ public class GamePanel extends JPanel {
       bombnumber = HARD_BOMB_NUMBER;
     }
 
-    //TODO:プレイヤかソルバかを選択できるようにする。
     gameField = new GameField(this, 800, 600, width, height, bombnumber, withPlayer);
     add(gameField);
   }

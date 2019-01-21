@@ -10,13 +10,15 @@ import javax.swing.JPanel;
 
 import components.layout.GamePanel;
 
+import solver.*;
+
 /**
  * GameField
  */
 public class GameField extends JPanel {
 
   private GameCell[][] field;
-  private int[][] cacheField;
+  private int[][] fieldStatus;
   private int width;
   private int height;
   private int bombnumber;
@@ -71,27 +73,32 @@ public class GameField extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              //とりあえず適当なセルを選択。ソルバが完成すると以下のようなコードとなるだろう。
-              // Solver solver = new Solver(statusOfField);
-              // result = solver.execute();
-              // int y = result.y, x = result.x;
 
-              int y = isTouched ? (int) (Math.random() * height) + 1 : height / 2;
-              int x = isTouched ? (int) (Math.random() * width) + 1 : width / 2;
+              Solver solver = new Solver(width, height, 99, getFieldData(), isTouched);
+              Order result = solver.execute();
+              int y = result.cell.y;
+              int x = result.cell.x;
       
-              //System.out.println(x + " " + y);
               
-              // 以下重複・リファクタリングを検討
-              if (!isTouched) {
-                isTouched = true;
-                construct(x, y);
-                calculate();
+              
+              if(result.getShouldOpen()){
+                System.out.println("開ける: " + x + " " + y);
+                //以下はopenに置くべき
+                if (!isTouched) {
+                  isTouched = true;
+                  construct(x, y);
+                  calculate();
+                }
+                if (!open(x, y)) {
+                  gamePanel.gameover();
+                }
               }
-      
-              if (!open(x, y)) {
-                gamePanel.gameover();
+              else{
+                System.out.println("旗: " + x + " " + y);
+                //repaintはswitchFlag内に置くべきでは
+                field[y][x].switchFlag();
+                field[y][x].repaint();
               }
-
               // try{
               //   Thread.sleep(1000);
               // }catch(InterruptedException exception){}
@@ -101,12 +108,7 @@ public class GameField extends JPanel {
       }
 
     }
-    cacheField = new int[height + 2][width + 2];
-    for (int y = 0; y < height + 2; y++) {
-      for (int x = 0; x < width + 2; x++) {
-        cacheField[y][x] = GameCell.FIELD_DATA_HIDDEN;
-      }
-    }
+
     setPreferredSize(new Dimension(700, 600));
     setLayout(new GridLayout(width, height));
     setOpaque(false);
@@ -193,6 +195,17 @@ public class GameField extends JPanel {
   }
 
   public int[][] getFieldData() {
-    return cacheField;
+    fieldStatus = new int[height + 2][width + 2];
+    for(int y = 0; y < height + 2; y++){
+      for(int x = 0; x < width + 2; x++){
+        if(x == 0 || y == 0 || x == width + 1 || y == height + 1){
+          //cellの方でdummycellとかの判定をする
+          fieldStatus[y][x] = GameCell.FIELD_DATA_EMPTY;
+        }else{
+          fieldStatus[y][x] = field[y][x].getStatus();
+        }
+      }
+    }
+    return fieldStatus;
   }
 }
