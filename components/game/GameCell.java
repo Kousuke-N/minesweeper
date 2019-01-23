@@ -115,11 +115,7 @@ public class GameCell extends JButton {
   }
 
   protected boolean isHereBomb() {
-    if (fieldData == FIELD_DATA_BOMB) {
-      return true;
-    } else {
-      return false;
-    }
+    return fieldData == FIELD_DATA_BOMB;
   }
 
   /**
