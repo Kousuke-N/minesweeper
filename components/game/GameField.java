@@ -114,7 +114,7 @@ public class GameField extends JPanel {
     setOpaque(false);
   }
 
-  public boolean open(int x, int y) {
+  private boolean open(int x, int y) {
     if (!isTouched) {
       isTouched = true;
       construct(x, y);
@@ -125,7 +125,7 @@ public class GameField extends JPanel {
     openCell(x, y);
     //System.out.println(x + " " + y + " " + field[y][x].getIsGameOver() + " " + field[x][y].getIsGameOver());
     //ここ以下は余計？
-    return !field[x][y].getIsGameOver();
+    return true;
   }
 
   private void openCell(int x, int y) {
