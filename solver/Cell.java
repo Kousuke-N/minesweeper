@@ -1,11 +1,11 @@
 package solver;
 
 public class Cell{
-  public int x;
   public int y;
+  public int x;
 
-  public Cell(int x, int y){
-    this.x = x;
+  public Cell(int y, int x){
     this.y = y;
+    this.x = x;
   }
 }

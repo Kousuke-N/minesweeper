@@ -123,8 +123,6 @@ public class GameField extends JPanel {
       return false;
     }
     openCell(x, y);
-    //System.out.println(x + " " + y + " " + field[y][x].getIsGameOver() + " " + field[x][y].getIsGameOver());
-    //ここ以下は余計？
     return true;
   }
 

@@ -6,30 +6,62 @@ import components.game.GameCell;
 import solver.Cell;
 
 public class Information{
-  int y;
-  int x;
-  int numberOfBomb;
-  HashSet<Cell> surroundingNotOpenedCells = new HashSet<Cell>();
+  public int y;
+  public int x;
+  public int bombs;
+  public HashSet<Cell> adjacentHiddenCells = new HashSet<Cell>();
 
-  Information(int y, int x, int[][] fieldStatus) throws IllegalAccessException{
+  public Information(int bombs, HashSet<Cell> adjacentHiddenCells){
+    this.bombs = bombs;
+    this.adjacentHiddenCells = adjacentHiddenCells;
+  }
 
-    if(GameCell.FIELD_DATA_EMPTY > fieldStatus[y][x] || fieldStatus[y][x] > GameCell.FIELD_DATA_MAX_NUMBER){
-      throw new IllegalAccessException("0-8でない引数が渡されました: " + fieldStatus[y][x]);
+  public boolean intersectableWith(Information another){
+    return minBombs(another) == maxBombs(another);
+  }
+
+  public Information intersection(Information another){
+    if(!intersectableWith(another)){
+      throw new IllegalArgumentException("Intersectionを作成できません");
     }
+    return new Information(minBombs(another), intersection(another.adjacentHiddenCells));
+  }
+
+  private HashSet<Cell> intersection(HashSet<Cell> another){
+    HashSet<Cell> result = new HashSet<>();
+    result.addAll(this.adjacentHiddenCells);
+    result.retainAll(another);
+    return result;
+  }
+
+  private int minBombs(Information another){
+    HashSet<Cell> intersection = this.intersection(another.adjacentHiddenCells);
+    return Math.max(0, Math.max(-this.adjacentHiddenCells.size() + intersection.size() + this.bombs,
+                                -another.adjacentHiddenCells.size() + intersection.size() + another.bombs));
+  }
+
+  private int maxBombs(Information another){
+    HashSet<Cell> intersection = this.intersection(another.adjacentHiddenCells);
+    return Math.min(intersection.size(), Math.min(this.bombs, another.bombs));
+  }
+
+  public Information difference(Information another){
+
+    Information intersection = intersection(another);
+    int bombs = this.bombs - intersection.bombs;
+
+    HashSet<Cell> adjacentHiddenCells = new HashSet<Cell>();
+    adjacentHiddenCells.addAll(this.adjacentHiddenCells);
+    adjacentHiddenCells.removeAll(intersection.adjacentHiddenCells);
     
-    this.x = x;
-    this.y = y;
-    
-    numberOfBomb = fieldStatus[y][x];
-    for(int i = y - 1; i <= y + 1; i++){
-      for(int j = x - 1; j <= x + 1; j++){
-        if(fieldStatus[i][j] == GameCell.FIELD_DATA_FLAG){
-          numberOfBomb--;
-        }
-        else if(fieldStatus[i][j] == GameCell.FIELD_DATA_HIDDEN){
-          surroundingNotOpenedCells.add(new Cell(j, i));
-        }
-      }
-    }
+    return new Information(bombs, adjacentHiddenCells);
+  }
+
+  public boolean allSafe(){
+    return bombs == 0;
+  }
+
+  public boolean allBomb(){
+    return bombs == adjacentHiddenCells.size();
   }
 }
