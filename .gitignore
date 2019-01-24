@@ -1,3 +1,5 @@
 # classファイルはいらない
 *.class
 .vscode
+image/*.ai
+.DS_Store
