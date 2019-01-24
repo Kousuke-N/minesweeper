@@ -86,7 +86,7 @@ public class GamePanel extends JPanel {
       bombnumber = HARD_BOMB_NUMBER;
     }
 
-    //TODO:プレイヤかソルバかを選択できるようにする。
+    // TODO:プレイヤかソルバかを選択できるようにする。
     gameField = new GameField(this, 800, 600, width, height, bombnumber, withPlayer);
     add(gameField);
   }
@@ -111,6 +111,6 @@ public class GamePanel extends JPanel {
   }
 
   public void gameover() {
-    mainFrame.panelChange(mainFrame.panelNames[0]);
+    mainFrame.panelChange(mainFrame.panelNames[4], false);
   }
 }
