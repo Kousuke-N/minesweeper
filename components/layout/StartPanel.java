@@ -93,7 +93,9 @@ public class StartPanel extends JPanel {
     gbc.weightx = 1.0d;
     gbc.weighty = 1.0d;
     gbc.gridheight = 1;
-    buttonToEasyGame = new JButton("Easyモード");
+    buttonToEasyGame = new JButton(new ImageIcon(getClass().getResource("../../image/easy.png")));
+    buttonToEasyGame.setOpaque(false);
+    buttonToEasyGame.setBorderPainted(false);
     buttonToEasyGame.setSize(new Dimension(mainFrame.FRAME_WIDTH / 2, mainFrame.FRAME_WIDTH / 4));
     layout.setConstraints(buttonToEasyGame, gbc);
     add(buttonToEasyGame);
@@ -103,7 +105,9 @@ public class StartPanel extends JPanel {
     gbc.weightx = 1.0d;
     gbc.weighty = 1.0d;
     gbc.gridheight = 1;
-    buttonToNormalGame = new JButton("Normalモード");
+    buttonToNormalGame = new JButton(new ImageIcon(getClass().getResource("../../image/normal.png")));
+    buttonToNormalGame.setOpaque(false);
+    buttonToNormalGame.setBorderPainted(false);
     buttonToNormalGame.setSize(new Dimension(mainFrame.FRAME_WIDTH / 2, mainFrame.FRAME_WIDTH / 4));
     layout.setConstraints(buttonToNormalGame, gbc);
     add(buttonToNormalGame);
@@ -111,7 +115,9 @@ public class StartPanel extends JPanel {
     gbc.gridx = 1;
     gbc.gridy = 3;
     gbc.gridheight = 1;
-    buttonToHardGame = new JButton("Hardモード");
+    buttonToHardGame = new JButton(new ImageIcon(getClass().getResource("../../image/hard.png")));
+    buttonToHardGame.setOpaque(false);
+    buttonToHardGame.setBorderPainted(false);
     buttonToHardGame.setSize(new Dimension(mainFrame.FRAME_WIDTH / 2, mainFrame.FRAME_WIDTH / 4));
     layout.setConstraints(buttonToHardGame, gbc);
     add(buttonToHardGame);
