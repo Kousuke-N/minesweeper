@@ -100,7 +100,7 @@ public class GamePanel extends JPanel {
     super.paint(g);
   }
 
-  public void gameover() {
-    mainFrame.panelChange(mainFrame.panelNames[0]);
+  public void toResult(boolean result) {
+    mainFrame.panelChange(mainFrame.panelNames[4], result);
   }
 }

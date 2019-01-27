@@ -23,14 +23,17 @@ public class GameCell extends JButton {
 
   // private int x;
   // private int y;
+  private GameField gameField;
 
   private boolean isOpen = false;
   private boolean isFlag = false;
   private boolean isGameOver = false;
   private int fieldData = FIELD_DATA_EMPTY;
 
-  public GameCell() {
+  public GameCell(GameField gf) {
     super();
+
+    gameField = gf;
 
     // 旗用画像の処理
     flagIcon = new ImageIcon("./image/anctlogo.png");
@@ -100,6 +103,7 @@ public class GameCell extends JButton {
     if (fieldData == FIELD_DATA_BOMB) {
       isGameOver = true;
     }
+    gameField.decrementClosedCellNumber();
   }
 
   protected boolean getIsGameOver() {
