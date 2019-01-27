@@ -81,7 +81,7 @@ public class GamePanel extends JPanel {
     add(gameField);
   }
 
-  @Override // 上位クラスのメソッドを定義しなおしていることを示すJavaの注釈。なくても構いません
+  @Override
   public void paint(Graphics g) {
     Graphics2D g2D = (Graphics2D) g;
 

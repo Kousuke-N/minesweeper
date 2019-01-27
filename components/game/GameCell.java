@@ -52,7 +52,6 @@ public class GameCell extends JButton {
     addMouseListener(new MouseAdapter() {
       public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-          System.out.println("右クリックされたよ！！");
           switchFlag();
           repaint();
         }
