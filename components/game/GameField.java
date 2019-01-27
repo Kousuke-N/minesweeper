@@ -163,7 +163,7 @@ public class GameField extends JPanel {
 
   protected void decrementClosedCellNumber() {
     closedCellNumber--;
-    System.out.println(closedCellNumber);
+    // System.out.println(closedCellNumber);
   }
 
   protected void construct(int x, int y) {
