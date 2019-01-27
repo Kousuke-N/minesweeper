@@ -3,7 +3,6 @@ package components;
 import java.awt.Container;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import components.layout.*;
 
@@ -11,8 +10,8 @@ import components.layout.*;
  * MineFrame
  */
 public class MainFrame extends JFrame {
-  public static final int FRAME_WIDTH = 1000;
-  public static final int FRAME_HEIGHT = 700;
+  public static final int FRAME_WIDTH = 800;
+  public static final int FRAME_HEIGHT = 630;
   public String[] panelNames = { "start", "game", "config", "help" };
   public String[] GAME_DIFFICULTY = { "easy", "normal", "hard", "popteamepic" };
 
