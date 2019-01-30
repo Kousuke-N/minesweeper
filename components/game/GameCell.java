@@ -13,10 +13,13 @@ import javax.swing.SwingUtilities;
  * GameCell
  */
 public class GameCell extends JButton {
-  static final int FIELD_DATA_EMPTY = 0;
-  static final int FIELD_DATA_BOMB = -1;
-  static final int FIELD_DATA_HIDDEN = -2;
-  static final int FIELD_DATA_MAX_NUMBER = 8;
+  public static final int FIELD_DATA_EMPTY = 0;
+  public static final int FIELD_DATA_BOMB = -1;
+  public static final int FIELD_DATA_HIDDEN = -2;
+  public static final int FIELD_DATA_MAX_NUMBER = 8;
+
+  //isFlag(), isOpen()とかで判定できると便利？
+  public static final int FIELD_DATA_FLAG = -3;
 
   private static ImageIcon flagIcon;
   ImageIcon smallIcon;
@@ -115,23 +118,22 @@ public class GameCell extends JButton {
   }
 
   protected boolean isHereBomb() {
-    if (fieldData == FIELD_DATA_BOMB) {
-      return true;
-    } else {
-      return false;
-    }
+    return fieldData == FIELD_DATA_BOMB;
   }
 
   /**
    * フィールドデータを取得する関数
    * 
-   * @return このcellが空いていればデータを、隠れていれば-2を返す
+   * @return このcellが空いていればデータを、隠れていれば-2、旗は-3を返す
    */
-  protected int getFieldData() {
-    if (isOpen) {
-      return fieldData;
-    } else {
+  protected int getStatus() {
+    if (isFlag){
+      return FIELD_DATA_FLAG;
+    }
+    else if (!isOpen) {
       return FIELD_DATA_HIDDEN;
+    } else {
+      return fieldData;
     }
   }
 
