@@ -75,7 +75,7 @@ public class GameField extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-              
+
               Solver solver = new Solver(width, height, 99, getFieldData(), isTouched);
               Order result = solver.execute();
               int y = result.cell.y;
@@ -91,6 +91,8 @@ public class GameField extends JPanel {
                 }
                 if (!open(x, y)) {
                   gamePanel.toResult(false);
+                } else if (closedCellNumber == bombNumber) {
+                  gamePanel.toResult(true);
                 }
               }
               else{
