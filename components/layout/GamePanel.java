@@ -1,24 +1,14 @@
 package components.layout;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import components.MainFrame;
@@ -90,7 +80,7 @@ public class GamePanel extends JPanel {
     add(gameField);
   }
 
-  @Override // 上位クラスのメソッドを定義しなおしていることを示すJavaの注釈。なくても構いません
+  @Override
   public void paint(Graphics g) {
     Graphics2D g2D = (Graphics2D) g;
 
@@ -109,7 +99,7 @@ public class GamePanel extends JPanel {
     super.paint(g);
   }
 
-  public void gameover() {
-    mainFrame.panelChange(mainFrame.panelNames[0]);
+  public void toResult(boolean result) {
+    mainFrame.panelChange(mainFrame.panelNames[4], result);
   }
 }

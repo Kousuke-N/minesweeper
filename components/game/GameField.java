@@ -1,6 +1,5 @@
 package components.game;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,21 +20,23 @@ public class GameField extends JPanel {
   private int[][] fieldStatus;
   private int width;
   private int height;
-  private int bombnumber;
+  private int bombNumber;
+  private int closedCellNumber;
   private boolean isTouched = false;
   private boolean withPlayer;
 
-  public GameField(GamePanel gamePanel, int panelWidth, int panelHeight, int width, int height, int bombnumber,
+  public GameField(GamePanel gamePanel, int panelWidth, int panelHeight, int width, int height, int bombNumber,
       boolean withPlayer) {
     this.width = width;
     this.height = height;
-    this.bombnumber = bombnumber;
+    this.bombNumber = bombNumber;
+    this.closedCellNumber = width * height;
     this.withPlayer = withPlayer;
 
     field = new GameCell[height + 2][width + 2];
     for (int y = 0; y < height + 2; y++) {
       for (int x = 0; x < width + 2; x++) {
-        field[y][x] = new GameCell();
+        field[y][x] = new GameCell(this);
         field[y][x].setActionCommand(y + ":" + x);
         if (y == 0 || y == height + 1 || x == 0 || x == width + 1) {
           continue;
@@ -63,24 +64,23 @@ public class GameField extends JPanel {
               }
 
               if (!open(x, y)) {
-                gamePanel.gameover();
+                gamePanel.toResult(false);
+              } else if (closedCellNumber == bombNumber) {
+                gamePanel.toResult(true);
               }
             }
           });
-        }
-        else{
+        } else {
           field[y][x].addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+              
               Solver solver = new Solver(width, height, 99, getFieldData(), isTouched);
               Order result = solver.execute();
               int y = result.cell.y;
               int x = result.cell.x;
-      
-              
-              
+
               if(result.getShouldOpen()){
                 System.out.println("開ける: " + x + " " + y);
                 //以下はopenに置くべき
@@ -90,7 +90,7 @@ public class GameField extends JPanel {
                   calculate();
                 }
                 if (!open(x, y)) {
-                  gamePanel.gameover();
+                  gamePanel.toResult(false);
                 }
               }
               else{
@@ -100,7 +100,7 @@ public class GameField extends JPanel {
                 field[y][x].repaint();
               }
               // try{
-              //   Thread.sleep(1000);
+              // Thread.sleep(1000);
               // }catch(InterruptedException exception){}
             }
           });
@@ -161,9 +161,14 @@ public class GameField extends JPanel {
     }
   }
 
+  protected void decrementClosedCellNumber() {
+    closedCellNumber--;
+    // System.out.println(closedCellNumber);
+  }
+
   protected void construct(int x, int y) {
     int constructedBombNumber = 0;
-    while (constructedBombNumber < bombnumber) {
+    while (constructedBombNumber < bombNumber) {
       int constructedX = (int) (Math.random() * width) + 1;
       int constructedY = (int) (Math.random() * height) + 1;
       if (constructedX >= x - 1 && constructedX <= x + 1 && constructedY >= y - 1 && constructedY <= y + 1) {
