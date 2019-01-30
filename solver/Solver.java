@@ -106,7 +106,19 @@ public class Solver{
 
     System.out.println("ランダム選択");
 
+
     //ランダムに開ける
+    if(informations.size() > 0){
+      HashSet<Cell> cells = new HashSet<Cell>();
+      for(Information info: informations){
+        for(Cell cell: info.adjacentHiddenCells){
+          cells.add(cell);
+        }
+      }
+      Object[] cells_array = (cells.toArray());
+      int index = (int)(Math.random() * cells.size());
+      return new Order((Cell)(cells_array[index]), true);
+    }
     int x = (int) (Math.random() * width) + 1;
     int y = (int) (Math.random() * height) + 1;
     return new Order(cells[y][x], true);
